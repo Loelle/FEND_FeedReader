@@ -27,10 +27,8 @@ $(function() {
         });
 
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
+        // Validates URL property of the allFeeds object
+
         it('have a URL', function () {
             allFeeds.forEach(function(feeds) {
                 expect(feeds.url).toBeDefined();
@@ -38,10 +36,7 @@ $(function() {
             }) 
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        // Validates name property of the allFeeds object
         it('have a name', function () {
             allFeeds.forEach(function (feeds) {
                 expect(feeds.name).toBeDefined();
@@ -52,22 +47,14 @@ $(function() {
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    /* Testing suite for "The menu" */
     describe('The menu', function () {
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+        // Ensures the menu element is hidden by default.
         it('element hidden by default', function () {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+         //Ensures the menu changes visibility when the menu icon is clicked.
         it('visibility change on menu icon click', function () {
             // first click normally remove menu-hidden class
             $('.menu-icon-link').click();
@@ -78,14 +65,9 @@ $(function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
     });
-    /* TODO: Write a new test suite named "Initial Entries" */
+    /* Testing suite for "Initial Entries" */
     describe('Initial Entries', function () {
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
+        // Ensures loadFeed is able to load a feed which fill the element with the class entry
         beforeEach(function (done) {
             loadFeed(0, done);
         });
@@ -95,28 +77,26 @@ $(function() {
         });
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+    /* Testing suite for "New Feed Selection" */
     describe('New Feed Selection', function () {
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
+        // Ensures the content change when a new feed is loaded
         let firstFeed, secondFeed;
 
         beforeEach(function (done) {
             loadFeed(0, function () {
                 // store the first feed
                 firstFeed = $('.feed').html();
-                done();
+				// load a second feed
+				loadFeed(1, function() {
+					// store the second feed
+					secondFeed = $('.feed').html();
+					// Ensures asynchronous events is done with success before continue with the it() function
+					done();
+				});
             });
-            // load a second feed
-            loadFeed(1, function() {
-                // store the second feed
-                secondFeed = $('.feed').html();
-                done();
-            });
+            
         });
-
+		// Ensures the content of the first feed is different from the second one
         it('changes the content', function () {
             expect(firstFeed).not.toBe(secondFeed);
         });
